@@ -43,6 +43,12 @@ app.get("/health", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is runnning on ${PORT} ........`);
-});
+// For Vercel serverless — export app
+module.exports = app;
+
+// For local dev / Back4App / traditional servers — start listener
+if (process.env.NODE_ENV !== "production" || process.env.START_SERVER === "true") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
