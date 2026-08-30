@@ -10,40 +10,31 @@ var async = require("async");
 const compression = require("compression");
 
 app.set("view engine", "ejs");
-function parallel(middlewares) {
-  return function (req, res, next) {
-    async.each(
-      middlewares,
-      function (mw, cb) {
-        mw(req, res, cb);
-      },
-      next
-    );
-  };
-}
 
+// ── CORS — allow any origin (Vercel frontend, localhost dev) ──────────────────
 app.use(
-  parallel([
-    express.static(path.join(__dirname, "./uploads")),
-    compression(),
-    bodyParser.json({ limit: "50mb" }),
-    bodyParser.urlencoded({
-      parameterLimit: 100000,
-      limit: "50mb",
-      extended: true,
-    }),
-    multer({ dest: __dirname + "/uploads/" }).any(),
-  ])
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  })
 );
+app.options("*", cors());
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// ── Body parsers ──────────────────────────────────────────────────────────────
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ parameterLimit: 100000, limit: "50mb", extended: true }));
+app.use(compression());
+app.use(express.static(path.join(__dirname, "./uploads")));
 
-app.use(cors());
+// ── File uploads ──────────────────────────────────────────────────────────────
+app.use(multer({ dest: __dirname + "/uploads/" }).any());
+
+// ── Routes ────────────────────────────────────────────────────────────────────
 app.use(routes);
 
 app.get("/", (req, res) => {
-  res.send("Ok It's Done!!!");
+  res.send("Dental Care API is running!");
 });
 
 app.get("/health", (req, res) => {

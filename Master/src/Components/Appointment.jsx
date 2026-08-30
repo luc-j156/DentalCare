@@ -393,16 +393,14 @@ const Appointment = () => {
     setLoadingDoctors(true);
     setDoctorList([]);
     setDoctorId("");
-    const formData = new FormData();
-    formData.append("Specialist", specialty);
     try {
       const response = await axios.post(
         `${API_BASE_URL}/getDoctorFromSpecialist`,
-        formData,
+        { Specialist: specialty },
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.data.success === true) {
-        setDoctorList(response.data.result);
+        setDoctorList(response.data.result || []);
       }
     } catch (e) {
       console.error("Failed to fetch doctors", e);
@@ -441,19 +439,20 @@ const Appointment = () => {
       return;
     }
     setIsSubmitting(true);
-    const formData = new FormData();
-    formData.append("Specialist", Specialist);
-    formData.append("Name", Name);
-    formData.append("date", date);
-    formData.append("time", time);
-    formData.append("Email", Email);
-    formData.append("DoctorId", DoctorId);
-    formData.append("description", Description);
-    formData.append("CustomerNumber", CustomerNumber);
-    formData.append("user_id", localStorage.getItem("id") || "0");
+    const appointmentData = {
+      Specialist: Specialist,
+      Name: Name,
+      date: date,
+      time: time,
+      Email: Email,
+      DoctorId: DoctorId,
+      description: Description,
+      CustomerNumber: CustomerNumber,
+      user_id: localStorage.getItem("id") || "0",
+    };
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/add/appointment`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/add/appointment`, appointmentData, {
         headers: { "Content-Type": "application/json" },
       });
 

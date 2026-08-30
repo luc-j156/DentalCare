@@ -94,48 +94,40 @@ exports.Registration = async (req, res) => {
 // LOGIN — parameterized
 // ─────────────────────────────────────────────────────────────────────────────
 exports.userLogin = async (req, res) => {
-  utils.check_request_params(
-    req.body,
-    [
-      { name: "Email",    type: "string" },
-      { name: "Password", type: "string" },
-    ],
-    function (response) {
-      if (response.success) {
-        const postData = req.body;
-        // Parameterized — prevents SQL injection on email
-        const sql = `SELECT * FROM ${table.user} WHERE Email = ?`;
-        con.query(sql, [postData.Email], async (err, results) => {
-          if (err) {
-            return res.status(401).send({ success: false, message: "User not valid", error: err });
-          }
-          if (results.length > 0) {
-            const pass = utils.cryptPassword(results[0].Password);
-            const checkPass = await utils.comparePassword(postData.Password, pass, results[0]);
-            return res.status(checkPass ? 200 : 400).send({
-              success: checkPass ? true : false,
-              status:  checkPass ? 200 : 400,
-              message: checkPass ? "Logged in successfully" : "Invalid password",
-              result:  checkPass ? results[0] : {},
-              token:   checkPass,
-            });
-          } else {
-            return res.status(400).send({ success: false, status: 400, message: "Invalid email" });
-          }
-        });
-      } else {
-        res.json(response);
-      }
+  const email = (req.body?.Email || req.body?.email || "").trim();
+  const password = (req.body?.Password || req.body?.password || "").trim();
+
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and Password are required" });
+  }
+
+  const sql = `SELECT * FROM ${table.user} WHERE Email = ?`;
+  con.query(sql, [email], async (err, results) => {
+    if (err) {
+      return res.status(500).send({ success: false, message: "Server internal error", error: err });
     }
-  );
+    if (results.length > 0) {
+      const checkPass = await utils.comparePassword(password, results[0].Password, results[0]);
+      return res.status(checkPass ? 200 : 400).send({
+        success: checkPass ? true : false,
+        status:  checkPass ? 200 : 400,
+        message: checkPass ? "Logged in successfully" : "Invalid password",
+        result:  checkPass ? results[0] : {},
+        token:   checkPass,
+      });
+    } else {
+      return res.status(400).send({ success: false, status: 400, message: "Invalid email" });
+    }
+  });
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GET DOCTORS BY SPECIALIST — parameterized
 // ─────────────────────────────────────────────────────────────────────────────
 exports.getDoctorFromSpecialist = async (req, res) => {
-  const sql = `SELECT * FROM ${table.user} WHERE Specialist = ? AND status = 'Available'`;
-  con.query(sql, [req.body.Specialist], (err, results) => {
+  const specialist = (req.body?.Specialist || req.body?.specialist || "").trim();
+  const sql = `SELECT * FROM ${table.user} WHERE (Specialist = ? OR ? = '') AND (admin = '2' OR admin = 2) AND status = 'Available'`;
+  con.query(sql, [specialist, specialist], (err, results) => {
     if (err) {
       return res.status(400).json({ success: false, message: "Server internal error", error: err });
     }

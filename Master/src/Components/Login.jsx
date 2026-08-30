@@ -22,8 +22,8 @@ const Login = () => {
     const userData = { Email: data.email, Password: data.password };
     const LoginUrl = `${API_BASE_URL}/user_login`;
     try {
-      const response = await axios.post(LoginUrl, JSON.stringify(userData), {
-        headers: { Accept: "auth", "Content-Type": "application/json" },
+      const response = await axios.post(LoginUrl, userData, {
+        headers: { "Content-Type": "application/json" },
       });
       const login = response.data;
       if (login.success === true) {

@@ -29,14 +29,15 @@ const Contact = () => {
 
     try {
       setSubmitting(true);
-      const formData = new FormData();
-      formData.append("Name", name);
-      formData.append("Email", email);
-      formData.append("Number", phone);
-      formData.append("Subject", subject);
-      formData.append("Message", message);
+      const contactData = {
+        Name: name,
+        Email: email,
+        Number: phone,
+        Subject: subject,
+        Message: message,
+      };
 
-      const res = await contactService.submitContact(formData);
+      const res = await contactService.submitContact(contactData);
       if (res.success) {
         toast.success("Message sent! Our team will get back to you within 24 hours.");
         setName("");
