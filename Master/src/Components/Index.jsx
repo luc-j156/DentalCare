@@ -25,12 +25,12 @@ const Index = () => {
   };
 
   const services = [
-    {
-      title: "Cosmetic Dentistry",
-      desc: "Transform your smile with porcelain veneers, cosmetic bonding, and smile contouring.",
-      image: require("../Assets/img/service-1.jpg"),
-      tag: "Aesthetics",
-    },
+    // {
+    //   title: "Cosmetic Dentistry",
+    //   desc: "Transform your smile with porcelain veneers, cosmetic bonding, and smile contouring.",
+    //   image: require("../Assets/img/service-1.jpg"),
+    //   tag: "Aesthetics",
+    // },
     {
       title: "Dental Implants",
       desc: "Permanent, natural-looking tooth replacements with state-of-the-art titanium roots.",

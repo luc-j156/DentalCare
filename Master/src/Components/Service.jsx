@@ -16,14 +16,14 @@ const Service = () => {
   };
 
   const services = [
-    {
-      title: "Cosmetic Dentistry",
-      category: "Aesthetics",
-      desc: "Comprehensive smile redesign with porcelain veneers, direct composite bonding, and aesthetic contouring.",
-      image: require("../Assets/img/service-1.jpg"),
-      features: ["Custom shade matching", "Minimal prep veneers", "Same-day bonding available"],
-      price: "From ₹2,500",
-    },
+    // {
+    //   title: "Cosmetic Dentistry",
+    //   category: "Aesthetics",
+    //   desc: "Comprehensive smile redesign with porcelain veneers, direct composite bonding, and aesthetic contouring.",
+    //   image: require("../Assets/img/service-1.jpg"),
+    //   features: ["Custom shade matching", "Minimal prep veneers", "Same-day bonding available"],
+    //   price: "From ₹2,500",
+    // },
     {
       title: "Dental Implants",
       category: "Restorative",
