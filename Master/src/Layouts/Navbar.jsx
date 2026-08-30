@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Menu,
   X,
   Calendar,
   User,
   LogOut,
-  ChevronDown,
   LayoutDashboard,
   ShieldCheck,
 } from "lucide-react";
@@ -14,7 +13,6 @@ import {
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("admin"); // "1" = Admin, "2" = Doctor, "0" = Patient

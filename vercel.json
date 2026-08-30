@@ -1,0 +1,11 @@
+﻿{
+  "version": 2,
+  "buildCommand": "cd Master && npm install && npm run build",
+  "outputDirectory": "Master/build",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

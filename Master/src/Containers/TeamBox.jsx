@@ -1,6 +1,8 @@
 import React from "react";
 import { Stethoscope, CheckCircle2, Phone, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../api/axiosClient";
+import defaultDoctorImg from "../Assets/img/team-1.jpg";
 
 const TeamBox = ({ prod }) => {
   if (!prod || prod.length === 0) {
@@ -16,8 +18,8 @@ const TeamBox = ({ prod }) => {
     <>
       {prod.map((item, i) => {
         const imageUrl = item.Image
-          ? `http://localhost:5000/${item.Image}`
-          : require("../Assets/img/team-1.jpg");
+          ? `${API_BASE_URL}/${item.Image}`
+          : defaultDoctorImg;
 
         return (
           <div
@@ -32,7 +34,7 @@ const TeamBox = ({ prod }) => {
                 alt={item.FirstName}
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = require("../Assets/img/team-1.jpg");
+                  e.target.src = defaultDoctorImg;
                 }}
               />
               <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">

@@ -198,7 +198,7 @@ const Footer = () => {
             </a>
 
             <a
-              href="#"
+              href="https://github.com/luc-j156"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors"
@@ -211,7 +211,7 @@ const Footer = () => {
             </a>
 
             <a
-              href="#"
+              href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-slate-300 hover:text-sky-400 transition-colors"

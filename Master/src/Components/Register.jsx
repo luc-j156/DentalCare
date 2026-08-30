@@ -7,6 +7,7 @@ import {
   Loader2, ShieldCheck, ChevronRight, CheckCircle2
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "../api/axiosClient";
 
 const strengthLabels = ["", "Weak", "Fair", "Good", "Strong"];
 const strengthColors = ["", "bg-red-400", "bg-yellow-400", "bg-blue-400", "bg-green-500"];
@@ -25,7 +26,6 @@ const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [watchPassword, setWatchPassword] = useState("");
 
   const {
     register,
@@ -47,7 +47,7 @@ const Register = () => {
       Address: data.Address,
       Number: data.Number,
     };
-    const SignUpURL = `http://localhost:5000/signup`;
+    const SignUpURL = `${API_BASE_URL}/signup`;
     try {
       const res = await axios.post(SignUpURL, PostData, {
         headers: { "Content-Type": "application/json" },

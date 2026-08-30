@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import {
-  Calendar, Clock, User, Phone, Mail, FileText,
-  Printer, Download, CheckCircle2, XCircle, AlertCircle,
+  Calendar, Clock, Phone, Mail, FileText,
+  Printer, CheckCircle2, XCircle, AlertCircle,
   Filter, Search, TrendingUp, CreditCard, Stethoscope,
   Users, ChevronRight, RefreshCw, Loader2, Receipt,
-  BriefcaseMedical, IndianRupee, Star
+  BriefcaseMedical, IndianRupee
 } from "lucide-react";
-
-import toast from "react-hot-toast";
+import { API_BASE_URL } from "../api/axiosClient";
 
 /* ─── Helpers ──────────────────────────────────────────── */
 const role = () => localStorage.getItem("admin"); // "0"=patient, "1"=admin, "2"=doctor
@@ -545,7 +544,7 @@ const ResentAppointment = () => {
     formData.append("id", localStorage.getItem("id"));
     formData.append("admin", localStorage.getItem("admin"));
     try {
-      const response = await axios.post("http://localhost:5000/recent/appointment", formData, {
+      const response = await axios.post(`${API_BASE_URL}/recent/appointment`, formData, {
         headers: { "Content-Type": "application/json" },
       });
       if (response.data.success === true) {
@@ -569,7 +568,7 @@ const ResentAppointment = () => {
     formData.append("time", filterTime);
     formData.append("date", filterDate);
     try {
-      const response = await axios.post("http://localhost:5000/getappointment", formData, {
+      const response = await axios.post(`${API_BASE_URL}/getappointment`, formData, {
         headers: { "Content-Type": "application/json" },
       });
       if (response.data.success === true) {

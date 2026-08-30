@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useRazorpay from "react-razorpay";
 import {
   Stethoscope, UserCircle2, CalendarDays, CreditCard,
   ChevronRight, ChevronLeft, CheckCircle2, Loader2,
   Clock, Phone, Mail, FileText, AlertCircle,
-  Smile, Braces, Hammer, ClipboardList
+  Smile, Braces, Hammer
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "../api/axiosClient";
 
 /* ─── Constants ─────────────────────────────────────────── */
 const STEPS = [
@@ -366,7 +366,6 @@ const StepConfirm = ({
 
 /* ─── Main Component ─────────────────────────────────────── */
 const Appointment = () => {
-  const Razorpay = useRazorpay();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
@@ -398,7 +397,7 @@ const Appointment = () => {
     formData.append("Specialist", specialty);
     try {
       const response = await axios.post(
-        "http://localhost:5000/getDoctorFromSpecialist",
+        `${API_BASE_URL}/getDoctorFromSpecialist`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -454,7 +453,7 @@ const Appointment = () => {
     formData.append("user_id", localStorage.getItem("id") || "0");
 
     try {
-      const response = await axios.post("http://localhost:5000/add/appointment", formData, {
+      const response = await axios.post(`${API_BASE_URL}/add/appointment`, formData, {
         headers: { "Content-Type": "application/json" },
       });
 
@@ -471,7 +470,7 @@ const Appointment = () => {
           };
 
           try {
-            await axios.post("http://localhost:5000/update/appointmentStatus", payData, {
+            await axios.post(`${API_BASE_URL}/update/appointmentStatus`, payData, {
               headers: { Accept: "auth", "Content-Type": "application/json" },
             });
             toast.success("Test UPI Payment Successful! Appointment booked.", { id: "payment-toast" });

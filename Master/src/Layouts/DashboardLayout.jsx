@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Calendar, Users, User, PlusCircle, LogOut,
+  Users, User, PlusCircle, LogOut,
   Menu, X, Home, ShieldCheck, Stethoscope,
-  Clock, ChevronRight, LayoutDashboard, Settings,
+  ChevronRight, LayoutDashboard, Settings,
 } from "lucide-react";
 
 const DashboardLayout = ({ children, pageTitle }) => {

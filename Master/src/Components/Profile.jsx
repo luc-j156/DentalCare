@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import {
   User, Mail, Phone, MapPin, ShieldCheck, Stethoscope,
-  ToggleLeft, ToggleRight, CheckCircle2, AlertCircle,
+  CheckCircle2, AlertCircle,
   Clock, Star, Calendar, ChevronRight
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "../api/axiosClient";
 
 /* ─── Availability Toggle (Doctor only) ─────────────────── */
 const AvailabilityPanel = ({ userDetails, onStatusChange }) => {
   const currentStatus = userDetails?.status || "Available";
   const isAvailable = currentStatus === "Available";
-  const isBusy = currentStatus === "Busy" || currentStatus === "On Leave";
 
   const statuses = [
     {
@@ -116,7 +116,7 @@ const ProfileCard = ({ userDetails, userRole }) => {
           <div className="relative">
             {userDetails?.Image ? (
               <img
-                src={`http://localhost:5000/${userDetails.Image}`}
+                src={`${API_BASE_URL}/${userDetails.Image}`}
                 alt={userDetails.FirstName}
                 className="w-20 h-20 rounded-2xl border-4 border-white shadow-lg object-cover"
               />
@@ -207,7 +207,7 @@ const Profile = () => {
     const formData = new FormData();
     formData.append("status", newStatus);
     formData.append("id", localStorage.getItem("id"));
-    axios.post("http://localhost:5000/update/status", formData, {
+    axios.post(`${API_BASE_URL}/update/status`, formData, {
       headers: { "Content-Type": "application/json" },
     }).then((response) => {
       if (response.data.success === true) {

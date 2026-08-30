@@ -1,8 +1,7 @@
-import Form from "./Form";
 import axios from "axios";
-import React, { Component, useEffect, useState, setState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-const Swal = require("sweetalert2");
+import React, { Component } from "react";
+import Swal from "sweetalert2";
+import { API_BASE_URL } from "../api/axiosClient";
 
 class ManageApp extends Component {
   constructor(props) {
@@ -61,7 +60,7 @@ class ManageApp extends Component {
         admin: this.state.admin,
       };
 
-      const SignUpURL = `http://localhost:5000/signup`;
+      const SignUpURL = `${API_BASE_URL}/signup`;
 
       axios
         .post(SignUpURL, PostData, {
@@ -71,7 +70,7 @@ class ManageApp extends Component {
         })
         .then((res) => {
           if (res.data.success === true) {
-            window.location.href=window.location.href
+            window.location.reload();
             Swal.fire({
               icon: "success",
               title: res.data.message,
@@ -184,7 +183,7 @@ class ManageApp extends Component {
 
   render() {
     const { showForm } = this.state;
-    if (localStorage.getItem("admin") == "1") {
+    if (localStorage.getItem("admin") === "1") {
       return (
         <div className="manage-app">
           <h1>Add Doctor</h1>

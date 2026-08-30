@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff, Mail, Lock, Loader2, ShieldCheck, ChevronRight } from "lucide-react";
 import toast from "react-hot-toast";
+import { API_BASE_URL } from "../api/axiosClient";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     const userData = { Email: data.email, Password: data.password };
-    const LoginUrl = `http://localhost:5000/user_login`;
+    const LoginUrl = `${API_BASE_URL}/user_login`;
     try {
       const response = await axios.post(LoginUrl, JSON.stringify(userData), {
         headers: { Accept: "auth", "Content-Type": "application/json" },
