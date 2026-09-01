@@ -13,19 +13,11 @@
         value: production
       - key: PORT
         value: 5000
-      - key: DB_HOST
-        sync: false
-      - key: DB_PORT
-        sync: false
-      - key: DB_USER
-        sync: false
-      - key: DB_PASSWORD
-        sync: false
-      - key: DB_NAME
-        sync: false
       - key: MYSQL_URL
         sync: false
       - key: DB_SSL
+        value: "true"
+      - key: START_SERVER
         value: "true"
       - key: JWT_SECRET
         generateValue: true
