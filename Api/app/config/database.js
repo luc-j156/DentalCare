@@ -9,8 +9,13 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
     process.env.MYSQL_URL ||
     process.env.DATABASE_URL ||
     process.env.MYSQL_PUBLIC_URL;
+  const parsedUrl = new URL(connectionUrl);
   poolConfig = {
-    uri: connectionUrl,
+    host: parsedUrl.hostname,
+    port: parseInt(parsedUrl.port || "3306"),
+    user: decodeURIComponent(parsedUrl.username),
+    password: decodeURIComponent(parsedUrl.password),
+    database: decodeURIComponent(parsedUrl.pathname.replace(/^\//, "")),
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
