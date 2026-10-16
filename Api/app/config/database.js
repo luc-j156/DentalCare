@@ -1,5 +1,7 @@
 require("dotenv").config();
 const mysql = require("mysql2");
+const fs = require("fs");
+const path = require("path");
 
 // Build database configuration supporting connection strings or individual env vars
 let poolConfig;
@@ -70,6 +72,22 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
 
 const pool = mysql.createPool(poolConfig);
 
+async function initializeSchema() {
+  const schemaPath = path.resolve(__dirname, "../../../dental.sql");
+  const schemaSql = fs.readFileSync(schemaPath, "utf8");
+  const statements = schemaSql
+    .replace(/^--.*$/gm, "")
+    .split(";")
+    .map((statement) => statement.trim())
+    .filter(Boolean);
+
+  for (const statement of statements) {
+    await pool.promise().query(statement);
+  }
+
+  console.log("✅ Dental database schema is ready");
+}
+
 pool.getConnection((err, connection) => {
   if (err) {
     console.error("❌ MySQL connection pool failed:", err.message);
@@ -81,6 +99,9 @@ pool.getConnection((err, connection) => {
       "dental";
     console.log(`✅ MySQL pool connected successfully → ${dbName}`);
     connection.release();
+    initializeSchema().catch((schemaError) => {
+      console.error("❌ Database schema initialization failed:", schemaError.message);
+    });
   }
 });
 
