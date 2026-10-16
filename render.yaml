@@ -16,7 +16,7 @@
       - key: MYSQL_URL
         sync: false
       - key: DB_SSL
-        value: "true"
+        value: "false"
       - key: START_SERVER
         value: "true"
       - key: JWT_SECRET

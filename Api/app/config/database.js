@@ -17,8 +17,13 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
     password: decodeURIComponent(parsedUrl.password),
     database: decodeURIComponent(parsedUrl.pathname.replace(/^\//, "")),
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: 5,
+    maxIdle: 2,
+    idleTimeout: 30000,
     queueLimit: 0,
+    connectTimeout: 10000,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
     ssl:
       process.env.DB_SSL === "true" || process.env.MYSQL_SSL === "true"
         ? { rejectUnauthorized: false }
@@ -48,8 +53,13 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
       process.env.MYSQLDATABASE ||
       "dental",
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: 5,
+    maxIdle: 2,
+    idleTimeout: 30000,
     queueLimit: 0,
+    connectTimeout: 10000,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
     ssl:
       process.env.DB_SSL === "true" || process.env.MYSQL_SSL === "true"
         ? { rejectUnauthorized: false }
