@@ -10,6 +10,7 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
     process.env.DATABASE_URL ||
     process.env.MYSQL_PUBLIC_URL;
   const parsedUrl = new URL(connectionUrl);
+  const isRailwayPublicProxy = /\.proxy\.rlwy\.net$/i.test(parsedUrl.hostname);
   poolConfig = {
     host: parsedUrl.hostname,
     port: parseInt(parsedUrl.port || "3306"),
@@ -25,7 +26,7 @@ if (process.env.MYSQL_URL || process.env.DATABASE_URL || process.env.MYSQL_PUBLI
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
     ssl:
-      process.env.DB_SSL === "true" || process.env.MYSQL_SSL === "true"
+      !isRailwayPublicProxy && (process.env.DB_SSL === "true" || process.env.MYSQL_SSL === "true")
         ? { rejectUnauthorized: false }
         : undefined,
   };
